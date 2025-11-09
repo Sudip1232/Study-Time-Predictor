@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study-Time Predictor</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- PapaParse for CSV parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h1><i class="fas fa-brain"></i> Study-Time Predictor</h1>
+      <p>Advanced client-side machine learning predictor for student study time estimation using k-NN algorithm.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card readme">
+      <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
+      <div id="readme-content" class="fade-in">
+        <!-- README will be injected here -->
+      </div>
+    </section>
+
+    <section class="card uploader">
+      <h2><i class="fas fa-upload"></i> Dataset Management</h2>
+      <p>Automatically loads <code>Test Data.csv</code> from the current folder. Alternatively, upload your own CSV file:</p>
+      <div class="upload-area">
+        <input id="file-input" type="file" accept=".csv" />
+        <label for="file-input" class="upload-btn"><i class="fas fa-cloud-upload-alt"></i> Choose File</label>
+      </div>
+      <p id="load-status" class="status">Initializing...</p>
+    </section>
+
+    <section class="card predictor">
+      <h2><i class="fas fa-chart-line"></i> Prediction Engine</h2>
+      <form class="prediction-form">
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="input-screen-time"><i class="fas fa-tv"></i> Screen Time (hours/week)</label>
+            <input id="input-screen-time" type="number" step="0.1" value="10" min="0" required />
+          </div>
+          <div class="input-group">
+            <label for="input-genre"><i class="fas fa-book"></i> Favorite Book Genre</label>
+            <select id="input-genre" required>
+              <option value="">Select Genre</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Sci-Fi">Sci-Fi</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="Self-Help">Self-Help</option>
+              <option value="Non-Fiction">Non-Fiction</option>
+              <option value="Biography">Biography</option>
+              <option value="Tech">Tech</option>
+              <option value="Romance">Romance</option>
+              <option value="Thriller">Thriller</option>
+              <option value="Mystery">Mystery</option>
+              <option value="Horror">Horror</option>
+              <option value="Comedy">Comedy</option>
+              <option value="Historical">Historical</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="input-other"><i class="fas fa-calculator"></i> Other Numeric Feature (optional)</label>
+            <input id="input-other" type="number" step="0.1" placeholder="0" />
+          </div>
+        </div>
+        <button id="predict-btn" type="button" class="btn-primary"><i class="fas fa-magic"></i> Predict Study Time</button>
+      </form>
+      <div id="prediction-result" class="result fade-in"></div>
+    </section>
+
+    <section class="card dataset-preview">
+      <h2><i class="fas fa-table"></i> Dataset Preview</h2>
+      <div id="table-wrap" class="table-container">Loading dataset...</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p><i class="fas fa-code"></i> Built with HTML, CSS, JavaScript & PapaParse | Powered by k-NN Algorithm</p>
+      <p>Files: README.md, Test Data.csv, Project Code.ipynb</p>
+    </div>
+  </footer>
+</body>
+</html>
