@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎓 Study Time Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906175.png" type="image/png">
+</head>
+<body>
+  <div class="animated-bg"></div>
+
+  <header class="header fade-in">
+    <h1>🎓 Study Time Predictor</h1>
+    <p class="subtitle">An AI-driven web app to analyze and predict your study habits</p>
+  </header>
+
+  <main class="main fade-in">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Upload Section -->
+    <section class="glass">
+      <h2>📂 Upload a New Dataset</h2>
+      <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="dataset" accept=".csv" required>
+        <button type="submit" class="btn primary">📤 Upload & Retrain Model</button>
+      </form>
+      <p class="note">Upload a <b>CSV</b> with columns for reading habits, genre, screen time, and study performance.</p>
+
+      <div class="download-box">
+        <p>💾 Download the latest trained model:</p>
+        <a href="/download_model" class="btn secondary">⬇ Download model.pkl</a>
+      </div>
+
+      {% if detected_info %}
+      <div class="info-box">
+        <p>{{ detected_info }}</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- Prediction Section -->
+    <section class="glass">
+      {% if prediction %}
+        <h2>📊 Prediction Result</h2>
+        <div class="result-box">
+          <p><strong>📚 Estimated Books per Year:</strong> {{ pred_books }}</p>
+          <p><strong>⏰ Predicted Daily Study Time:</strong> {{ est_daily_hours }} hours/day</p>
+        </div>
+        <a href="/" class="btn primary">🔁 Make Another Prediction</a>
+      {% else %}
+        <h2>🎯 Test the AI Predictor</h2>
+        <form action="/predict" method="POST" class="form">
+          <label>📖 Reading Habit:</label>
+          <select name="reads" required>
+            {% for option in reads_options %}
+              <option>{{ option }}</option>
+            {% endfor %}
+          </select>
+
+          <label>📘 Book Genre Preference:</label>
+          <select name="genre" required>
+            {% for genre in genres %}
+              <option>{{ genre }}</option>
+            {% endfor %}
+          </select>
+
+          <label>💻 Average Screen Time (hours/week):</label>
+          <input type="number" step="0.1" name="screen" placeholder="e.g. 12.5" required>
+
+          <button type="submit" class="btn primary">🚀 Predict Study Time</button>
+        </form>
+      {% endif %}
+    </section>
+  </main>
+
+  <footer class="footer fade-in">
+    <p>Made with ❤️ by <strong>Sayak Das</strong>, <strong>Sudip Ghosh</strong>, and <strong>Sayak Ghosh</strong> © 2025</p>
+    <p>All rights reserved. Powered by Flask & Machine Learning 🤖</p>
+  </footer>
+
+  <!-- Loader -->
+  <div id="loader-overlay" class="loader-overlay">
+    <div class="loader"></div>
+    <p>Training your model... please wait ⏳</p>
+  </div>
+
+  <script>
+    const uploadForm = document.getElementById("uploadForm");
+    const loaderOverlay = document.getElementById("loader-overlay");
+
+    if (uploadForm) {
+      uploadForm.addEventListener("submit", () => {
+        loaderOverlay.style.display = "flex";
+      });
+    }
+  </script>
+</body>
+</html>
